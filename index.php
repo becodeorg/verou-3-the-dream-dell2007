@@ -1,3 +1,13 @@
+<?php
+ini_set('display_errors', '1');
+ini_set('display_startup_errors', '1');
+error_reporting(E_ALL);
+
+/* var_dump($_GET); get allows to share the link with the data not good for personal information*/
+/* var_dump($_POST); post just */
+/*Short version <?= ?>*/
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,38 +20,68 @@
 
 <body>
 
-    <?php
-    ini_set('display_errors', '1');
-    ini_set('display_startup_errors', '1');
-    error_reporting(E_ALL);
-
-    /* var_dump($_GET);*/
-    /* var_dump($_POST);*/
-    ?>
-
     <h1>Currency Calculator</h1>
 
     <form action="" method="post">
         <select name="currencyOne">
-            <option value="1" id="euro">Euro</option>
-            <!-- <option value="1" id="dollar">Dollar</option> -->
+            <option value="euro" id="currencyOne">Euro</option>
+            <option value="dollar" id="currencyOne">Dollar</option>
+            <option value="aus" id="currencyOne">AUD</option>
         </select>
-        <select name="currencyTwo" id="currency">
-            <option value="1.14" name="dollar" id="currency">Dollar</option>
-            <option value="1.58" name="australia" id="currency">AUD</option>
+        <select name="currencyTwo">
+            <option value="euro" id="currencyOne">Euro</option>
+            <option value="dollar" id="currencyTwo">Dollar</option>
+            <option value="aus" id="currencyTwo">AUD</option>
         </select> <br>
         <label for="destination">Amount</label>
-        <input type="text" name="destination" id="destination">
-        <input type="submit">
+        <input type="number" name="amount" id="amount">
+        <input type="submit" name="submit">
     </form>
 
     <?php
 
-    $amount = $_POST;
-    if (empty($amount)) {
-        echo "";
-    } else {
-        echo $_POST['destination'] * $_POST['currencyTwo'];
+    //!empty === isset + not null
+
+    if (isset($_POST['submit'])) {
+        $currencyOne = $_POST['currencyOne'];
+        $currencyTwo = $_POST['currencyTwo'];
+        $amount = $_POST['amount'];
+
+        if (!empty($amount)) {
+            echo "";
+        }
+
+        if (
+            $currencyOne == 'euro' && $currencyTwo == 'euro' ||
+            $currencyOne == 'dollar' && $currencyTwo == 'dollar' ||
+            $currencyOne == 'aus' && $currencyTwo == 'aus'
+        ) {
+            echo $_POST['amount'] * 1;
+        }
+
+        if ($currencyOne == 'euro' && $currencyTwo == 'dollar') {
+            echo $_POST['amount'] * 1.14;
+        }
+
+        if ($currencyOne == 'euro' && $currencyTwo == 'aus') {
+            echo $_POST['amount'] * 1.59;
+        }
+
+        if ($currencyOne == 'dollar' && $currencyTwo == 'euro') {
+            echo $_POST['amount'] * 0.88;
+        }
+
+        if ($currencyOne == 'dollar' && $currencyTwo == 'aus') {
+            echo $_POST['amount'] * 1.39;
+        }
+
+        if ($currencyOne == 'aus' && $currencyTwo == 'euro') {
+            echo $_POST['amount'] * 0.63;
+        }
+
+        if ($currencyOne == 'aus' && $currencyTwo == 'dollar') {
+            echo $_POST['amount'] * 0.72;
+        }
     }
 
     ?>
